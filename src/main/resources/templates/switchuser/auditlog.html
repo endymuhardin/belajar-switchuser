@@ -1,24 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <title>Audit Log</title>
 </head>
 <body>
+<div layout:fragment="content">
     <h1>Audit Log</h1>
-    <table>
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>Waktu</th>
+            <th>User Asli</th>
+            <th>User Dipakai</th>
             <th>Kegiatan</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>12-Mar-2020 20:20:11</td>
-            <td>Lihat Transaksi</td>
+        <tr th:each="a : ${daftarAuditLog}">
+            <td th:text="${a.waktuKegiatan}">12-Mar-2020 20:20:11</td>
+            <td th:text="${a.penggunaAsli.nama}">Admin</td>
+            <td th:text="${a.penggunaDipakai.nama}">User xx</td>
+            <td th:text="${a.keterangan}">Lihat Transaksi</td>
         </tr>
         </tbody>
     </table>
+</div>
 </body>
 </html>

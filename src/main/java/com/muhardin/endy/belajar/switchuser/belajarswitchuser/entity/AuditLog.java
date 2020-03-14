@@ -18,8 +18,12 @@ public class AuditLog {
     private String id;
 
     @NotNull
-    @ManyToOne @JoinColumn(name = "id_pengguna")
-    private Pengguna pengguna;
+    @ManyToOne @JoinColumn(name = "id_pengguna_asli")
+    private Pengguna penggunaAsli;
+
+    @NotNull
+    @ManyToOne @JoinColumn(name = "id_pengguna_dipakai")
+    private Pengguna penggunaDipakai;
 
     @NotNull
     private LocalDateTime waktuKegiatan;

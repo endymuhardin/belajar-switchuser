@@ -25,19 +25,22 @@
         }
     </style>
     <!-- Custom styles for this template -->
-    <link href="@{/css/aplikasi.css}" rel="stylesheet">
+    <link th:href="@{/css/aplikasi.css}" rel="stylesheet">
 </head>
 <body>
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal">Company name</h5>
     <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="/transaksi/list">Daftar Transaksi</a>
+        <a class="p-2 text-dark" th:href="@{/transaksi/list}">Daftar Transaksi</a>
         &nbsp; | &nbsp;
         <a sec:authorize="hasAuthority('Administrator')"
-           class="p-2 text-dark" href="/switchuser/select">Ganti User</a>
+           class="p-2 text-dark" th:href="@{/switchuser/select}">Ganti User</a>
+        &nbsp; | &nbsp;
+        <a sec:authorize="hasAuthority('Administrator')"
+           class="p-2 text-dark" th:href="@{/switchuser/auditlog}">Audit Log</a>
         &nbsp; | &nbsp;
         <a sec:authorize="hasRole('ROLE_PREVIOUS_ADMINISTRATOR')"
-           class="p-2 text-dark" href="/switchuser/exit">Kembali ke Admin</a>
+           class="p-2 text-dark" th:href="@{/switchuser/exit}">Kembali ke Admin</a>
     </nav>
     | &nbsp; Hello, <span th:text="${#authentication.name}">current user</span>
     &nbsp; &nbsp; &nbsp;
