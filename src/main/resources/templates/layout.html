@@ -33,6 +33,8 @@
     <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="/transaksi/list">Daftar Transaksi</a>
     </nav>
+    | &nbsp; Hello, <span th:text="${#authentication.name}">current user</span>
+    &nbsp; &nbsp; &nbsp;
     <form th:action="@{/logout}" method="post">
         <input type="submit" class="btn btn-outline-primary" value="Logout" />
     </form>

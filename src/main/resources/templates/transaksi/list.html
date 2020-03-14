@@ -9,19 +9,21 @@
 <div layout:fragment="content">
     <h1>Daftar Transaksi</h1>
 
-    <table>
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>Waktu Transaksi</th>
+            <th>Pengguna</th>
             <th>Keterangan</th>
             <th>Nilai</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>12-Mar-2020 20:20:11</td>
-            <td>Setoran Tunai</td>
-            <td>100.000</td>
+        <tr th:each="t : ${daftarTransaksi}">
+            <td th:text="${t.waktuTransaksi}">12-Mar-2020 20:20:11</td>
+            <td th:text="${t.pengguna.nama}">Pengguna 1</td>
+            <td th:text="${t.keterangan}">Setoran Tunai</td>
+            <td th:text="${t.nilai}">100.000</td>
         </tr>
         </tbody>
     </table>

@@ -51,7 +51,8 @@ public class KonfigurasiSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and().logout().permitAll()
-                .and().formLogin(Customizer.withDefaults());
+                .and().formLogin()
+                .defaultSuccessUrl("/transaksi/list", true);
     }
 
     @Override
