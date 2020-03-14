@@ -32,10 +32,10 @@ public class AuditTrailInterceptor extends HandlerInterceptorAdapter {
         }
         Authentication currentUser = SecurityContextHolder.getContext()
                 .getAuthentication();
-        log.info("Current user : {}", currentUser.getName());
+        log.info("Current user : {}", currentUser);
         Authentication userAsli = SwitchUserHelper.userAsli(currentUser);
         if (userAsli != null) {
-            log.info("User asli : {}", userAsli.getName());
+            log.info("User asli : {}", userAsli);
             AuditLog auditLog = new AuditLog();
             auditLog.setKeterangan("Mengakses "
                     +request.getRequestURL().toString()
