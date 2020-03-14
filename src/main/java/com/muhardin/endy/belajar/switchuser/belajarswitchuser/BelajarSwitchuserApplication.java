@@ -11,6 +11,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;
@@ -33,8 +35,7 @@ public class BelajarSwitchuserApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		generateTransaction(penggunaDao.findById("u001").get(), 20);
-		generateTransaction(penggunaDao.findById("u002").get(), 20);
+		penggunaDao.findAll().forEach(p -> generateTransaction(p, 20));
 	}
 
 	private void generateTransaction(Pengguna pengguna, Integer jumlahTransaksi) {
@@ -42,7 +43,7 @@ public class BelajarSwitchuserApplication implements CommandLineRunner {
 		for (int i = 0; i < jumlahTransaksi; i++) {
 			Transaksi t = new Transaksi();
 			t.setPengguna(pengguna);
-			t.setKeterangan("Transaksi #"+ (i+1));
+			t.setKeterangan("Transaksi "+pengguna.getNama()+" #"+ (i+1));
 			t.setWaktuTransaksi(faker.date().past(5, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 			t.setNilai(new BigDecimal(faker.number().numberBetween(10000,100000000)));
 			transaksiDao.save(t);

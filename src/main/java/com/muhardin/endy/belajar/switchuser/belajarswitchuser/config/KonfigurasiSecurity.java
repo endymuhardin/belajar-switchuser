@@ -3,7 +3,6 @@ package com.muhardin.endy.belajar.switchuser.belajarswitchuser.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 
 import javax.sql.DataSource;
 
@@ -31,6 +32,16 @@ public class KonfigurasiSecurity extends WebSecurityConfigurerAdapter {
             + "where p.username = ?";
 
     @Bean
+    public SwitchUserFilter switchUserFilter() throws Exception {
+        SwitchUserFilter filter = new SwitchUserFilter();
+        filter.setUserDetailsService(userDetailsService());
+        filter.setSwitchUserUrl("/switchuser/form");
+        filter.setExitUserUrl("/switchuser/exit");
+        filter.setTargetUrl("/transaksi/list");
+        return filter;
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(13);
     }
@@ -47,12 +58,17 @@ public class KonfigurasiSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and().logout().permitAll()
-                .and().formLogin()
-                .defaultSuccessUrl("/transaksi/list", true);
+        http.authorizeRequests(authorize -> authorize
+            .mvcMatchers("/switchuser/logout")
+                .hasAuthority(SwitchUserFilter.ROLE_PREVIOUS_ADMINISTRATOR)
+            .mvcMatchers("/switchuser/form")
+                .hasAuthority("Administrator")
+            .anyRequest().authenticated()
+        )
+        .addFilterAfter(switchUserFilter(), FilterSecurityInterceptor.class)
+        .logout().permitAll()
+        .and().formLogin()
+        .defaultSuccessUrl("/transaksi/list", true);
     }
 
     @Override

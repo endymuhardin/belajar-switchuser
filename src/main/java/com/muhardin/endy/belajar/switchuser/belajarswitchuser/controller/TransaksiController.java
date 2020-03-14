@@ -25,7 +25,7 @@ public class TransaksiController {
     @GetMapping("/transaksi/list")
     public ModelMap daftarTransaksi(Authentication currentUser) {
         log.info("User yang sedang login : "+currentUser.getName());
-
+        log.info("Authority : "+currentUser.getAuthorities());
         ModelMap mm = new ModelMap();
 
         penggunaDao.findByUsername(currentUser.getName())
