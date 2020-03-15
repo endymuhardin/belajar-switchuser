@@ -59,9 +59,9 @@ public class KonfigurasiSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorize -> authorize
-            .mvcMatchers("/switchuser/logout")
+            .mvcMatchers("/switchuser/exit")
                 .hasAuthority(SwitchUserFilter.ROLE_PREVIOUS_ADMINISTRATOR)
-            .mvcMatchers("/switchuser/form")
+            .mvcMatchers("/switchuser/select", "/switchuser/form")
                 .hasAuthority("Administrator")
             .anyRequest().authenticated()
         )
